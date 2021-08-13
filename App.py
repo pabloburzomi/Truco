@@ -8,7 +8,7 @@ from Humano import *
 from Computadora import *
 
 def main():
-    Juego
+    
 
     ptos_para_ganar = 10
     mazo = Mazo()
