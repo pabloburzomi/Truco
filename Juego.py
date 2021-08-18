@@ -181,7 +181,7 @@ class Juego(Tablero):
             if mano_humano == True: return "Persona"
             else: return "Computadora"
             
-    #Devuelve ganador
+"""     #Devuelve ganador
     def segunda_mano(self, carta_humano, carta_ia, ganadas_persona):#ganadas_persona para definir quien gano primera mano y asi saber quien gana en caso de empate en 2da mano
         
         carta_persona = self.verificar_truco(carta_humano)
@@ -204,4 +204,6 @@ class Juego(Tablero):
         elif carta_persona > carta_computadora: return "Computadora"
         else:
             if ganador_primer_mano == "Persona": return "Persona"
-            else: return "Computadora"
+            else: return "Computadora" """
+
+    
