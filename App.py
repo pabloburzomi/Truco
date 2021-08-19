@@ -75,18 +75,22 @@ def main():
                         else: ganadas_computadora +=1
 
                     elif ganador_mano == "Computadora":
+
                         canto_persona,carta_persona = None,None
                         print("Le toca jugar a la computadora")
                         canto_ia, carta_ia= jugador_ia.juega(canto_persona,carta_persona, turno_cantar_persona,ganador_primera_mano)
 
                         if canto_ia != en_juego and canto_ia != None:
+
                             if jugador_humano.aceptar_juego(): en_juego , turno_cantar_persona = canto_ia, True
                             else:  ganadas_computadora += 2
 
                         print(f"Computadora juega: {carta_ia}")
 
                         canto_persona, carta_persona = jugador_humano.juega(en_juego,turno_cantar_persona)
+
                         if canto_persona != en_juego and canto_persona != None:
+
                             if jugador_ia.aceptar_juego(canto_persona): en_juego, turno_cantar_persona = canto_persona, False
                             else: ganadas_persona += 2
 
@@ -101,13 +105,18 @@ def main():
                         else: ganadas_computadora += 1
 
                     if manos == 0:
+
                         print(f"ganador de la primera mano: {ganador_mano}")
                         ganador_primera_mano = ganador_mano
+
                     elif manos == 1:
+
                         print(f"ganador de la segunda mano: {ganador_mano}")
                         ganador_primera_mano = ganador_mano
+
                     else:
                         if ganadas_persona < 2 or ganadas_computadora < 2:
+                            
                             print(f"ganador de la tercer mano: {ganador_mano}")
                             ganador_primera_mano = ganador_mano
 
