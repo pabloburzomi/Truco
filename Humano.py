@@ -115,12 +115,13 @@ class Humano(Juego):
             persona_canta = int(input(f"{menu_opciones_truco}")) - 1
 
             if persona_canta == 1: persona_canta = None
-            
+
         return persona_canta
 
     def juega_truco(self):
 
         carta = int(input(f"Que carta desea jugar: {self.mano}")) - 1
-        self.mano.remove(self.mano[carta])
-
+        carta_persona = self.mano[carta]
+        self.mano.remove(carta_persona)
+        
         return carta_persona
