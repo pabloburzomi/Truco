@@ -1,6 +1,6 @@
 from Tablero import *
 
-class Juego(Tablero):
+class Verificador_Juego(Tablero):
 
     def __init__(self):
         self.tablero = Tablero(0, 0)
@@ -239,7 +239,8 @@ class Juego(Tablero):
             if mano_humano == True: return "Persona"
 
             else: return "Computadora"
-            
+    
+     
 
 
     

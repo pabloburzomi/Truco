@@ -1,4 +1,5 @@
 class Tablero:
+  
   def __init__(self, punto_computadora, punto_humano):
     self.punto_computadora = punto_computadora
     self.punto_humano = punto_humano

@@ -1,7 +1,7 @@
 import random
-from Juego import *
+from Verificador_Juego import *
 
-class Computadora(Juego):     
+class Computadora(Verificador_Juego):     
     def __init__(self,mano):
         self.mano = mano
 

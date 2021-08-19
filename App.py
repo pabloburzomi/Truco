@@ -1,7 +1,7 @@
 import random
 import time
 
-from Juego import *
+from Verificador_Juego import *
 from Tablero import *
 from Mazo import *
 from Humano import *
@@ -19,7 +19,7 @@ def main():
    
     menu_opciones = ["Envido", "Truco", "Flor","Jugar sin cantar","Mazo"]
 
-    while juego.mostrar_tablero()[0] < ptos_para_ganar and juego.mostrar_tablero()[1] < ptos_para_ganar:
+    while verificador_juego.mostrar_tablero()[0] < ptos_para_ganar and verificador_juego.mostrar_tablero()[1] < ptos_para_ganar:
 
         mazo.mezclar_mazo()
         cartas_humano = mazo.repartir_cartas()
@@ -38,10 +38,10 @@ def main():
             juega_persona = int(input(f"Elija: {menu_opciones}")) - 1
 
             # SI LA PERSONA JUEGA CON EL MENU DE ENVIDO
-            if juega_persona == 0:  juego.envido_mano_persona(jugador_humano,jugador_ia, mano_humano)
+            if juega_persona == 0:  verificador_juego.envido_mano_persona(jugador_humano,jugador_ia, mano_humano)
 
             mano_humano, mano_del_juego_persona, turno_cantar_persona = True, True, True
-            ganador_mano, ganador_primera_mano = None, None
+            ganador_mano, ganador_ronda_manos = None, None
             manos, en_juego, ganadas_persona, ganadas_computadora = 0, 0, 0, 0
 
             while manos < 3:
@@ -65,7 +65,7 @@ def main():
                         
                         print(f"Persona juega: {carta_persona}")
                         
-                        canto_ia,carta_ia = jugador_ia.juega(en_juego,carta_persona, turno_cantar_persona,ganador_primera_mano)
+                        canto_ia,carta_ia = jugador_ia.juega(en_juego,carta_persona, turno_cantar_persona,ganador_ronda_manos)
 
                         if (canto_ia != en_juego and canto_ia != None) or (canto_persona == 0 and manos == 0):
 
@@ -74,7 +74,7 @@ def main():
 
                         print(f"Computadora juega: {carta_ia}")
 
-                        ganador_mano = juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
+                        ganador_mano = verificador_juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
 
                         if ganador_mano == "Persona": ganadas_persona += 1
                         else: ganadas_computadora +=1
@@ -85,7 +85,7 @@ def main():
 
                         print("Le toca jugar a la computadora")
 
-                        canto_ia, carta_ia= jugador_ia.juega(canto_persona,carta_persona, turno_cantar_persona,ganador_primera_mano)
+                        canto_ia, carta_ia= jugador_ia.juega(canto_persona,carta_persona, turno_cantar_persona,ganador_ronda_manos)
 
                         if canto_ia != en_juego and canto_ia != None:
 
@@ -104,7 +104,7 @@ def main():
                         print(f"Persona canta: {canto_persona}")
                         print(f"Persona juega: {carta_persona}")
 
-                        ganador_mano = juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
+                        ganador_mano = verificador_juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
 
                         # DE ACA EN ADELANTE SE PUEDEN HACER 3 METODOS CON CADA TROZO DE CODIGO hASTA QUE ES MANO LA IA
 
@@ -114,18 +114,18 @@ def main():
                     if manos == 0:
 
                         print(f"ganador de la primera mano: {ganador_mano}")
-                        ganador_primera_mano = ganador_mano
+                        ganador_ronda_manos = ganador_mano
 
                     elif manos == 1:
 
                         print(f"ganador de la segunda mano: {ganador_mano}")
-                        ganador_primera_mano = ganador_mano
+                        ganador_ronda_manos = ganador_mano
 
                     else:
                         if ganadas_persona < 2 or ganadas_computadora < 2:
 
                             print(f"ganador de la tercer mano: {ganador_mano}")
-                            ganador_primera_mano = ganador_mano
+                            ganador_ronda_manos = ganador_mano
 
                 else:
 
@@ -134,17 +134,17 @@ def main():
 
                 manos += 1
             
-            print(f"El juego queda: {juego.mostrar_tablero()}")
+            print(f"El juego queda: {verificador_juego.mostrar_tablero()}")
             counter += 1
 
         else: # Es mano la IA
 
             print("Es mano la computadora")
-            juego.envido_mano_computadora(jugador_humano,jugador_ia, mano_humano)
+            verificador_juego.envido_mano_computadora(jugador_humano,jugador_ia, mano_humano)
 
             manos, en_juego, ganadas_persona,  ganadas_computadora = 0, 0, 0, 0
             mano_del_juego_persona, turno_cantar_persona = False, False
-            ganador_mano, ganador_primera_mano = None, None
+            ganador_mano, ganador_ronda_manos = None, None
 
             while manos < 3:
 
@@ -159,10 +159,10 @@ def main():
                         canto_persona, carta_persona = None, None
 
                         print("Le toca jugar a la computadora")
-                        canto_ia, carta_ia = jugador_ia.juega(canto_persona,carta_persona, turno_cantar_persona,ganador_primera_mano)
+                        canto_ia, carta_ia = jugador_ia.juega(canto_persona,carta_persona, turno_cantar_persona,ganador_ronda_manos)
 
                         if canto_ia != en_juego and canto_ia != None:
-                            
+
                             if jugador_humano.aceptar_juego(): en_juego,turno_cantar_persona = canto_ia, True
                             else: ganadas_computadora += 2
 
@@ -182,12 +182,13 @@ def main():
                         print(f"Persona canta: {canto_persona}")
                         print(f"Persona juega: {carta_persona}")
 
-                        ganador_mano = juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
+                        ganador_mano = verificador_juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
 
                         if ganador_mano == "Persona": ganadas_persona += 1
                         else: ganadas_computadora +=1
                     
                     elif ganador_mano == "Persona":
+
                         canto_persona, carta_persona= None, None
 
                         print("Le toca jugar a la persona")
@@ -199,7 +200,7 @@ def main():
                             else:  ganadas_persona += 2                       
                         print(f"Persona juega: {carta_persona}")
                         
-                        canto_ia, carta_ia= jugador_ia.juega(en_juego,carta_persona, turno_cantar_persona,ganador_primera_mano)
+                        canto_ia, carta_ia= jugador_ia.juega(en_juego,carta_persona, turno_cantar_persona,ganador_ronda_manos)
 
                         if (canto_ia != en_juego and canto_ia != None) or (canto_persona == 0 and manos == 0):
 
@@ -208,21 +209,21 @@ def main():
 
                         print(f"Computadora juega: {carta_ia}")
 
-                        ganador_mano = juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
+                        ganador_mano = verificador_juego.primer_mano(carta_persona,carta_ia,mano_del_juego_persona)
 
                         if ganador_mano == "Persona": ganadas_persona += 1
                         else: ganadas_computadora +=1
 
                     if manos == 0:
                         print(f"ganador de la primera mano: {ganador_mano}")
-                        ganador_primera_mano = ganador_mano
+                        ganador_ronda_manos = ganador_mano
                     elif manos == 1:
                         print(f"ganador de la segunda mano: {ganador_mano}")
-                        ganador_primera_mano = ganador_mano
+                        ganador_ronda_manos = ganador_mano
                     else:
                         if ganadas_persona < 2 or ganadas_computadora < 2:
                             print(f"ganador de la tercer mano: {ganador_mano}")
-                            ganador_primera_mano = ganador_mano
+                            ganador_ronda_manos = ganador_mano
 
                 else:
                     if ganadas_persona < ganadas_computadora: print(f"GANADOR DEL TRUCO: ¡Computadora!")
@@ -230,8 +231,8 @@ def main():
 
                 manos += 1    
         
-            print(f"El juego queda: {juego.mostrar_tablero()}")                    
+            print(f"El juego queda: {verificador_juego.mostrar_tablero()}")                    
             counter += 1
 
-juego = Juego()
+verificador_juego = Verificador_Juego()
 main()

@@ -1,6 +1,6 @@
-from Juego import *
+from Verificador_Juego import *
 
-class Humano(Juego):
+class Humano(Verificador_Juego):
 
     def __init__(self,mano):
         self.mano = mano
@@ -65,7 +65,7 @@ class Humano(Juego):
         else: canto_persona = None
 
         carta_persona = self.juega_truco()
-        
+
         return canto_persona,carta_persona
 
     def aceptar_juego(self):
@@ -96,6 +96,7 @@ class Humano(Juego):
             menu_opciones_truco.remove("Truco")
             menu_opciones_truco.remove( "Quiero Vale Cuatro")
             persona_canta = int(input(f"{menu_opciones_truco}"))
+            
             if persona_canta == 1: persona_canta = 2 #truco
             elif persona_canta == 2: persona_canta = 0 #jugar sin cantar
             elif persona_canta == 3: persona_canta = None #no quiero
