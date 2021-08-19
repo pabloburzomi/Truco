@@ -60,11 +60,12 @@ class Humano(Juego):
 
     def juega(self, en_juego,mano_persona):
 
-        carta_persona = self.juega_truco()
 
         if mano_persona: canto_persona = self.canta_truco(en_juego)
         else: canto_persona = None
 
+        carta_persona = self.juega_truco()
+        
         return canto_persona,carta_persona
 
     def aceptar_juego(self):
@@ -123,5 +124,5 @@ class Humano(Juego):
         carta = int(input(f"Que carta desea jugar: {self.mano}")) - 1
         carta_persona = self.mano[carta]
         self.mano.remove(carta_persona)
-        
+
         return carta_persona
